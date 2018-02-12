@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,16 +15,43 @@
         <scene sceneID="tXr-a1-R10">
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="MagicTrick" customModuleProvider="target" sceneMemberID="viewController">
-                    <arscnView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="BrB-h1-WRS">
+                    <view key="view" contentMode="scaleToFill" id="V7K-gf-qzx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </arscnView>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kmq-0b-EYq">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </arscnView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VH0-v6-wlo">
+                                <rect key="frame" x="16" y="599" width="343" height="48"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.45545269691780821" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <state key="normal" title="Throw Ball"/>
+                                <connections>
+                                    <action selector="throwBallAction:" destination="BV1-FR-VrT" eventType="touchUpInside" id="GSs-2I-WF2"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Kmq-0b-EYq" secondAttribute="trailing" id="2lY-KB-nXN"/>
+                            <constraint firstItem="Kmq-0b-EYq" firstAttribute="top" secondItem="V7K-gf-qzx" secondAttribute="top" id="6nB-Ag-Z0g"/>
+                            <constraint firstItem="Kmq-0b-EYq" firstAttribute="leading" secondItem="V7K-gf-qzx" secondAttribute="leading" id="6nc-nS-1gF"/>
+                            <constraint firstItem="VH0-v6-wlo" firstAttribute="centerX" secondItem="Kmq-0b-EYq" secondAttribute="centerX" id="O89-ye-VOU"/>
+                            <constraint firstItem="VH0-v6-wlo" firstAttribute="leading" secondItem="V7K-gf-qzx" secondAttribute="leadingMargin" id="Ve7-Tx-sbw"/>
+                            <constraint firstItem="Kmq-0b-EYq" firstAttribute="bottom" secondItem="PaG-DL-Y7M" secondAttribute="bottom" id="fXY-Q5-Jma"/>
+                            <constraint firstAttribute="bottom" secondItem="VH0-v6-wlo" secondAttribute="bottom" constant="20" symbolic="YES" id="uwo-DY-KGn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PaG-DL-Y7M"/>
+                    </view>
                     <connections>
-                        <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
+                        <outlet property="sceneView" destination="Kmq-0b-EYq" id="ivv-av-Aev"/>
+                        <outlet property="throwBallButton" destination="VH0-v6-wlo" id="lcc-Ar-hHP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>
     </scenes>
 </document>

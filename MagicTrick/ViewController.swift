@@ -13,6 +13,7 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet weak var throwBallButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +30,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         guard let planeNode = scene.rootNode.childNode(withName: "floor", recursively: true) else { return }
         // Set the scene to the view
         sceneView.scene = scene
-
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,4 +79,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
     }
+  @IBAction func throwBallAction(_ sender: Any) {
+
+    print("throw the goddamn ball!")
+  }
+
 }
