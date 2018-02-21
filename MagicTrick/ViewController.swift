@@ -15,7 +15,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var throwBallButton: UIButton!
 
-    //var globalScene: SCNScene?
+    var globalScene: SCNScene?
     var planeNode: SCNNode?
     
     override func viewDidLoad() {
@@ -29,13 +29,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // Create a new scene
-//        guard let scene = SCNScene(named: "tophat.scn", inDirectory: "art.scnassets") else { return }
-//        guard let planeNode = scene.rootNode.childNode(withName: "floor", recursively: true) else { return }
-//
-//        sceneView.scene.rootNode.addChildNode(planeNode)
-//        // Set the scene to the view
-//        sceneView.scene = scene
-//        globalScene = sceneView.scene
+        guard let scene = SCNScene(named: "tophat.scn", inDirectory: "art.scnassets") else { return }
+        guard let planeNode = scene.rootNode.childNode(withName: "floor", recursively: true) else { return }
+
+        sceneView.scene.rootNode.addChildNode(planeNode)
+        // Set the scene to the view
+        sceneView.scene = scene
+        globalScene = sceneView.scene
+      print("viewdidload")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,17 +68,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 //     Override to create and configure nodes for anchors added to the view's session.
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
       if (anchor is ARPlaneAnchor) {
-//        let sphere = SCNSphere(radius: 0.1)
-        let topHat = SCNScene(named: "art.scnassets/tophat.scn")
-        let topHatNode = topHat?.rootNode.childNode(withName: "tophat", recursively: true)
-        //topHatNode?.position.z = -5
-//        let contentNode = SCNNode(geometry: topHat)
-//        planeNode!.addChildNode(scene)
-//        let contentNode = SCNNode(geometry: sphere)
-        planeNode = SCNNode()
-        planeNode!.addChildNode(topHatNode!)
-
-        return planeNode
+////        let sphere = SCNSphere(radius: 0.1)
+//        let topHat = SCNScene(named: "art.scnassets/tophat.scn")
+//        let topHatNode = topHat?.rootNode.childNode(withName: "tophat", recursively: true)
+//        //topHatNode?.position.z = -5
+////        let contentNode = SCNNode(geometry: topHat)
+////        planeNode!.addChildNode(scene)
+////        let contentNode = SCNNode(geometry: sphere)
+//        planeNode = SCNNode()
+//        planeNode!.addChildNode(topHatNode!)
+//
+//        return planeNode
       }
       return nil
   }
