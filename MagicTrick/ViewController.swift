@@ -15,7 +15,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var throwBallButton: UIButton!
 
-    var globalScene: SCNScene?
+    //var globalScene: SCNScene?
     var planeNode: SCNNode?
     
     override func viewDidLoad() {
@@ -29,21 +29,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // Create a new scene
-        guard let scene = SCNScene(named: "tophat.scn", inDirectory: "art.scnassets") else { return }
-        guard let planeNode = scene.rootNode.childNode(withName: "floor", recursively: true) else { return }
-
-        sceneView.scene.rootNode.addChildNode(planeNode)
-
-//        guard let ballNode = scene.rootNode.childNode(withName: "sphere", recursively: true) else { return }
+//        guard let scene = SCNScene(named: "tophat.scn", inDirectory: "art.scnassets") else { return }
+//        guard let planeNode = scene.rootNode.childNode(withName: "floor", recursively: true) else { return }
 //
-//        let forceDirection = SCNVector3Make(3, 3, 3)
-//        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-//        physicsBody.applyForce(forceDirection, asImpulse: true)
-//        ballNode.physicsBody = physicsBody
-//        print(physicsBody)
-        // Set the scene to the view
-        sceneView.scene = scene
-        globalScene = sceneView.scene
+//        sceneView.scene.rootNode.addChildNode(planeNode)
+//        // Set the scene to the view
+//        sceneView.scene = scene
+//        globalScene = sceneView.scene
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,10 +67,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 //     Override to create and configure nodes for anchors added to the view's session.
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
       if (anchor is ARPlaneAnchor) {
-        let sphere = SCNSphere(radius: 0.1)
-        let contentNode = SCNNode(geometry: sphere)
+//        let sphere = SCNSphere(radius: 0.1)
+        let topHat = SCNScene(named: "art.scnassets/tophat.scn")
+        let topHatNode = topHat?.rootNode.childNode(withName: "tophat", recursively: true)
+        //topHatNode?.position.z = -5
+//        let contentNode = SCNNode(geometry: topHat)
+//        planeNode!.addChildNode(scene)
+//        let contentNode = SCNNode(geometry: sphere)
         planeNode = SCNNode()
-        planeNode!.addChildNode(contentNode)
+        planeNode!.addChildNode(topHatNode!)
+
         return planeNode
       }
       return nil
@@ -105,7 +103,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     let cameraTransform = camera?.transform
 
     print("throw the goddamn ball!")
-    let ball = SCNSphere(radius: 1)
+    let ball = SCNSphere(radius: 0.5)
     let ballNode = SCNNode(geometry: ball)
     ballNode.simdTransform = cameraTransform!
 
@@ -113,6 +111,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     let forceDirection = SCNVector3Make(0, 3, -4)
     let physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
     physicsBody.applyForce(forceDirection, asImpulse: true)
+    physicsBody.allowsResting = true
+    physicsBody.isAffectedByGravity = true
     ballNode.physicsBody = physicsBody
 
     print(physicsBody)
