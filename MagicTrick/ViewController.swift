@@ -13,6 +13,10 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet weak var throwBallButton: UIButton!
+
+    //var globalScene: SCNScene?
+    var planeNode: SCNNode?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,12 +29,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/tophat.scn")!
-        guard let planeNode = scene.rootNode.childNode(withName: "floor", recursively: true) else { return }
-        // Set the scene to the view
-        sceneView.scene = scene
-
-
+//        guard let scene = SCNScene(named: "tophat.scn", inDirectory: "art.scnassets") else { return }
+//        guard let planeNode = scene.rootNode.childNode(withName: "floor", recursively: true) else { return }
+//
+//        sceneView.scene.rootNode.addChildNode(planeNode)
+//        // Set the scene to the view
+//        sceneView.scene = scene
+//        globalScene = sceneView.scene
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +43,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = .horizontal
 
         // Run the view's session
         sceneView.session.run(configuration)
@@ -60,10 +66,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
 //     Override to create and configure nodes for anchors added to the view's session.
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
+      if (anchor is ARPlaneAnchor) {
+//        let sphere = SCNSphere(radius: 0.1)
+        let topHat = SCNScene(named: "art.scnassets/tophat.scn")
+        let topHatNode = topHat?.rootNode.childNode(withName: "tophat", recursively: true)
+        //topHatNode?.position.z = -5
+//        let contentNode = SCNNode(geometry: topHat)
+//        planeNode!.addChildNode(scene)
+//        let contentNode = SCNNode(geometry: sphere)
+        planeNode = SCNNode()
+        planeNode!.addChildNode(topHatNode!)
+
+        return planeNode
+      }
+      return nil
+  }
 
     
     func session(_ session: ARSession, didFailWithError error: Error) {
@@ -80,4 +97,27 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
     }
+  @IBAction func throwBallAction(_ sender: Any) {
+
+    let camera = sceneView.session.currentFrame?.camera
+    let cameraTransform = camera?.transform
+
+    print("throw the goddamn ball!")
+    let ball = SCNSphere(radius: 0.5)
+    let ballNode = SCNNode(geometry: ball)
+    ballNode.simdTransform = cameraTransform!
+
+    // Add physics bodies
+    let forceDirection = SCNVector3Make(0, 3, -4)
+    let physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+    physicsBody.applyForce(forceDirection, asImpulse: true)
+    physicsBody.allowsResting = true
+    physicsBody.isAffectedByGravity = true
+    ballNode.physicsBody = physicsBody
+
+    print(physicsBody)
+
+    globalScene?.rootNode.addChildNode(ballNode)
+  }
+
 }
